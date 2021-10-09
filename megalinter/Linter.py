@@ -822,7 +822,13 @@ class Linter:
                 cmd += [self.cli_config_arg_name + self.final_config_file]
             elif self.cli_config_arg_name != "":
                 cmd += [self.cli_config_arg_name, self.final_config_file]
-            cmd += self.cli_config_extra_args
+            file_list = "/tmp/" + self.name + "_COLLECT_FILES"
+            with open(file_list, "w") as collect_files:
+                collect_files.write("\n".join(self.files))
+            logging.debug(
+                f"[{self.linter_name}] A file containing a list of files and/or directories to check (one per line): {file_list} with {len(self.files)} files"
+            )
+            cmd += [x.replace("{FILE_LIST}", file_list) if "{FILE_LIST}" in x else x for x in self.cli_config_extra_args]
         # Add other lint cli arguments after other arguments if defined
         cmd += self.cli_lint_extra_args_after
         # Some linters/formatters update files by default.
