@@ -1,5 +1,5 @@
 {
-    "ignorePaths": [
+    set -e Paths: [
         "**/node_modules/**",
         "**/vscode-extension/**",
         "**/.automation/generated/**",
